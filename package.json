@@ -1,0 +1,25 @@
+{
+  "name": "typingnetword",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pinyin-pro": "^3.14.0",
+    "prettier": "^2.8.8",
+    "sass": "^1.62.1",
+    "scss": "^0.2.4",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "eslint": "^8.42.0",
+    "eslint-plugin-vue": "^9.14.1",
+    "vite": "^4.3.9"
+  }
+}
