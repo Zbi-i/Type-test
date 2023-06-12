@@ -82,6 +82,11 @@
 </template>
 
 <style lang="scss" scoped>
+dialog{
+  padding: 0;
+  border: none;
+  background: none;
+}
 nav{
   position: relative;
   display: flex;
@@ -281,10 +286,6 @@ const useNavEffect = (router, warningHandleClick) => {
     }
     addContentIsShow.value = !addContentIsShow.value;
   }
-  // 切换内容/
-  const changeContent = (id) => {
-    router.replace({ path: `/typing/chinese/${id}` })
-  }
   const addContent = () => {
     // id 是 localStorage 里面的内容数量
     // 校验数据
@@ -310,7 +311,6 @@ const useNavEffect = (router, warningHandleClick) => {
     author,
     dynasty,
     content,
-    changeContent,
     addContentWrapper
   }
 }
@@ -318,10 +318,10 @@ const useNavEffect = (router, warningHandleClick) => {
 const getContentList = (language) => {
   let contentInfo;
   const ContentList = reactive([]);
-  if (language === 'chinese') {
+  if (language === 'cn') {
     contentInfo = JSON.parse(localStorage.getItem('ContentInfoCN'));
-  } else if (language === 'english') {
-    return getEnglishContentList();
+  } else if (language === 'en') {
+    contentInfo = JSON.parse(localStorage.getItem('ContentInfoEN'));
   }
   for (let key in contentInfo) {
     const {  id, title, author, dynasty, language } = contentInfo[key];
@@ -356,13 +356,17 @@ export default {
   props: {
     language: {
       type: String,
-      default: 'chinese'
+      default: 'cn'
     }
   },
   setup(props) {
     const router = useRouter();
     const { language } = props;
     const ContentList = getContentList(language);
+
+    const changeContent = (id) => {
+      router.replace({ path: `/typing/${language}/${id}` })
+    }
 
     const {
       warningWrapper,
@@ -377,7 +381,6 @@ export default {
       author,
       dynasty,
       content,
-      changeContent,
       addContentWrapper
     } = useNavEffect(router, warningHandleClick);
 
@@ -389,12 +392,13 @@ export default {
       author,
       dynasty,
       content,
-      changeContent,
       ContentList,
       addContentWrapper,
       warningWrapper,
       warningHandleClick,
-      warningMessage
+      warningMessage,
+      language,
+      changeContent
     }
   },
 }

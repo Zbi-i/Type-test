@@ -10,24 +10,26 @@
       <h1>选择练习</h1>
       <div class="wrapper">
         <div class="item" @click="router.push({
-          name: 'TypeChinese',
+          name: 'Typeing',
           params: {
+            language: 'cn',
             id: '1',
           },
         })">
           <div>
-            <img src="" alt="" srcset="">
+            <img src="/imgs/homepage/chinese.png" alt="" srcset="">
           </div>
           <div>中文练习</div>
         </div>
         <div class="item" @click="router.push({
-          name: 'TypeLetter',
+          name: 'Typeing',
           params: {
+            language: 'en',
             id: '1',
           },
         })">
           <div>
-            <img src="" alt="" srcset="">
+            <img src="/imgs/homepage/english.png" alt="" srcset="">
           </div>
           <div>英文练习</div>
         </div>
@@ -150,12 +152,12 @@ main {
           border-radius: .05rem;
         }
         div {
-          margin-top: 1rem;
           z-index: 1;
           font-size: .18rem;
           img {
-            width: 100%;
-            height: 100%;
+            width: 1.6rem;
+            height: 1.8rem;
+            object-fit: cover;
           }
         }
         @keyframes rotate {

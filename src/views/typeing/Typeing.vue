@@ -1,29 +1,9 @@
 <template>
-    <nav-bar :language="language"></nav-bar>
     <div class="type-wrapper">
+      <nav-bar nav-bar :language="language"></nav-bar>
         <main>
-          <div v-if="!isComplete">
-            <h3 class="title">
-              {{ `《${newContent?.title}》${newContent?.dynasty}·${newContent?.author}` }}
-            </h3>
-            <div class="content">
-              <div
-                v-for="item in newContent?.content"
-                :key="item"
-                class="content-item"
-              >
-                  <div class="c-i-char" v-for="(itemItem, itemIndex) in item" :key="itemIndex">
-                      <div class="pinyin">
-                          <span v-for="(itemItemItem, itemItemIndex) in itemItem.pinyinTone"
-                                :key="itemItemIndex"
-                                class="py-item">
-                              {{ itemItemItem }}
-                          </span>
-                      </div>
-                      <div class="hanzi">{{ itemItem.hanzi }}</div>
-                  </div>
-              </div>
-            </div>
+          <div v-if="!isComplete" ref="bodyInput">
+            <component :is="selectedComponent" :content="newContent"></component>
             <div class="type-info" v-show="!isFirstKeyDown">
               <div>
                 速度：<span>{{ speed }}</span>/分钟
@@ -44,6 +24,7 @@
             </div>
             <CompletePage></CompletePage>
           </div>
+          <input type="text" ref="phoneInput" style="display: none;">
         </main>
         <footer>
           <div class="progressBar-wrapper">
@@ -58,6 +39,7 @@
 </template>
 
 <style lang="scss" scoped>
+
 .type-wrapper{
   position: relative;
   width: 100%;
@@ -70,66 +52,6 @@
     flex-direction: column;
     padding: 0 .4rem;
     min-height: 72vh;
-    .title{
-      color: rgb(255, 255, 255);
-    }
-    .content{
-      max-width: 10rem;
-      max-height: 4.5rem;
-      font-size: .38rem;
-      margin: 0 auto;
-      padding: .12rem 0;
-      overflow-y: scroll;
-      transition: all 0.3s ease;
-      border-bottom: solid .02rem #464646;
-      &::-webkit-scrollbar{
-        display: none;
-      }
-      .content-item{
-        display: flex;
-        flex-wrap: wrap;
-        .c-i-char{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin: .16rem;
-          margin-left: 0;
-        }
-        .pinyin{
-          span {
-            display: inline-block;
-            margin: .06rem .04rem;
-            padding: .08rem;
-            color: #fff;
-          }
-          span.active{
-            padding-bottom: .06rem;
-            background-color: #000;
-            border-bottom: solid .02rem #9fed51;
-            box-sizing: border-box;
-          }
-          span.correct{
-            color: #4e9309;
-            background: #9fed51;
-          }
-          span.error{
-            color: #f4b6b6;
-            background: #5b1d1d;
-          }
-        }
-        .hanzi{
-          width: 100%;
-          text-align: center;
-          color: #fff;
-          background-color: #464646;
-          transition: background-color .3s ease-in-out;
-        }
-        .hanzi.pass{
-          background-color: transparent;
-        }
-      }
-    }
     .type-info{
       position: absolute;
       right: .08rem;
@@ -204,10 +126,12 @@
 
 <script>
 import { pinyin } from 'pinyin-pro';
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, toRefs, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import CompletePage from './CompletePage.vue';
 import NavBar from './NavBar.vue';
+import Chinese from './Chinese.vue';
+import English from './English.vue';
 // 汉字转拼音
 const getPinyin = (contentInfo0) => {
   const ConvertChineseToPinyin = (contentInfo) => {
@@ -287,7 +211,7 @@ const getPinyin = (contentInfo0) => {
   return { newContent, pinyinArr }
 }
 // 打字效果
-const useTypeEffect = (pinyinArr, isFirstKeyDown, accuracy, speed, isComplete) => {
+const useTypeEffect = (pinyinArr, isFirstKeyDown, accuracy, speed, isComplete, language) => {
   document.cookie = 'cookieName=value; SameSite=None; Secure';
   const correctAudio = new Audio('/audio/街机游戏按钮.mp3')
   const errorAudio = new Audio('/audio/koubanji.mp3')
@@ -319,7 +243,7 @@ const useTypeEffect = (pinyinArr, isFirstKeyDown, accuracy, speed, isComplete) =
   nextTick(() => {
     progressBar = document.getElementById('progressBar');
     pinyinDOMArr = document.getElementsByClassName('py-item');
-    contentWrapper = document.getElementsByClassName('content')[0];
+    contentWrapper = document.getElementById('content');
     pinyinDOMArr[index.value]?.classList.add('active');
 
     // 初始化进度条和滚动条
@@ -377,7 +301,7 @@ const useTypeEffect = (pinyinArr, isFirstKeyDown, accuracy, speed, isComplete) =
       }
       pinyinDOMArr[index.value+1].classList.remove('active');
       pinyinDOMArr[index.value]?.classList?.add('active');
-      changeHanziBgColor(key)
+      if (language.value === 'cn') changeHanziBgColor(key);
     } else {
       if(isFirstKeyDown.value){
         startTime = Date.now();
@@ -399,7 +323,7 @@ const useTypeEffect = (pinyinArr, isFirstKeyDown, accuracy, speed, isComplete) =
         errorAudio.currentTime = 0;
         pinyinDOMArr[index.value].classList.add('error');
       }
-      changeHanziBgColor(key)
+      if (language.value === 'cn') changeHanziBgColor(key);
       index.value++;
     }
 
@@ -427,11 +351,14 @@ export default {
     components: {
       CompletePage,
       NavBar,
+      Chinese,
+      English
     },
     setup() {
         const route = useRoute();
         const router = useRouter();
-        let { id, language } = route.params;
+        let { id, language } = toRefs(route.params);
+        let selectedComponent = language.value === 'cn' ? Chinese : English;
 
         const newContent = ref({});
         const pinyinArr = ref([]);
@@ -440,47 +367,57 @@ export default {
         const speed = ref(0);
         const isComplete = ref(false);
         const ContentInfo = ref({});
-        const getNewContent = (newId) => {
+        const phoneInput = ref(null);
+        const bodyInput = ref(null);
 
-          if (language === 'cn'){
+        const getNewContent = (newId) => {
+          if (language.value === 'cn'){
             ContentInfo.value = JSON.parse(localStorage.getItem('ContentInfoCN'));
-          }else if(language === 'en'){
+          }else if(language.value === 'en'){
             ContentInfo.value = JSON.parse(localStorage.getItem('ContentInfoEN'));
           }
 
-          if(newId >= Object.keys(ContentInfo.value).length) return router.replace({ name: 'TypeChinese', params: { id: 1 } })
+          if(newId > Object.keys(ContentInfo.value).length) return router.replace({ name: 'Typeing', params: { id: 1 } })
 
-          if (language === 'cn'){
+          if (language.value === 'cn'){
             const { newContent: a, pinyinArr: b } = getPinyin(ContentInfo.value[newId]);
             newContent.value = a;
             pinyinArr.value = b;
-          }else if(language === 'en'){
+          }else if(language.value === 'en'){
             const contentArr = ContentInfo.value[newId].content.trim().split('\n');
+            const pyArr = ref([]);
             for(let i = 0; i < contentArr.length; i++){
-              for(let j = 0; j < contentArr[i].content.length; j++){
-                pinyinArr.push(contentArr[i].content[j]);
+              contentArr[i] = contentArr[i].trim();
+              for(let j = 0; j < contentArr[i].length; j++){
+                pinyinArr.value.push(contentArr[i][j]);
               }
-              if (i < contentArr.content.length - 1) pinyinArr.push(' ');
+              pyArr.value.push(contentArr[i]);
             }
+            newContent.value = ContentInfo.value[newId];
+            newContent.value.content = pyArr.value;
           }
 
           accuracy.value = 0;
           speed.value = 0;
           isComplete.value = false;
           isFirstKeyDown.value = true;
-          useTypeEffect(pinyinArr.value, isFirstKeyDown, accuracy, speed, isComplete);
-          id = newId;
+          useTypeEffect(pinyinArr.value, isFirstKeyDown, accuracy, speed, isComplete, language);
+          id.value = newId;
         }
-        getNewContent(id);
+        getNewContent(id.value);
 
         const pageTurn = (value) => {
-          router.replace({ name: 'TypeChinese', params: { id: value } });
+          router.replace({ name: 'Typeing', params: {
+            id: value,
+            language: language.value
+          }});
         };
 
         watch(() => route.params, (params) => {
           const { id:newId } = params;
+          const { language } = route.params;
           // 在这里可以根据新的 id 值进行相应的处理
-          getNewContent(newId);
+          getNewContent(newId, language);
         });
 
         return {
@@ -494,6 +431,9 @@ export default {
           accuracy,
           speed,
           isComplete,
+          selectedComponent,
+          phoneInput,
+          bodyInput
         }
     },
 }
