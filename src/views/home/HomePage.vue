@@ -1,37 +1,42 @@
 <template>
-  <nav class="nav">
-    <div class="left">
-        <div>
-            <img src="/imgs/nav/logo-big.svg" alt="">
-        </div>
-        <div>
-            <h2>Type.fun</h2>
-        </div>
+  <nav>
+    <div>
+      打字练习
     </div>
-    <div class="right">
-        <ul>
-            <li>首页</li>
-            <li>产品</li>
-            <li>Type.fun博客</li>
-            <li>
-                <button @click="router.push({path: '/map'})">继续学习</button>
-            </li>
-        </ul>
-    </div>
+    <div>2977743612@qq.com</div>
   </nav>
-  <div class="home">
-    <div class="SHOUPING">
+  <main>
+    <div class="content">
+      <h1>选择练习</h1>
+      <div class="wrapper">
+        <div class="item" @click="router.push({
+          name: 'TypeChinese',
+          params: {
+            id: '1',
+          },
+        })">
+          <div>
+            <img src="" alt="" srcset="">
+          </div>
+          <div>中文练习</div>
+        </div>
+        <div class="item" @click="router.push({
+          name: 'TypeLetter',
+          params: {
+            id: '1',
+          },
+        })">
+          <div>
+            <img src="" alt="" srcset="">
+          </div>
+          <div>英文练习</div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-img">
       <div class="home-bg"></div>
-      <h1>TypeFun 在线打字练习</h1>
-      <h1>让打字变得更有趣</h1>
-      <P>每天几分钟，让您成为打字高手</P>
-      <p>丰富内容结构，科学的进阶方法，诗词歌赋，经典名著，让您在练习打字时收获更多</p>
-      <p>可结合拼音跟读，轻松学会拼音，数十万用户的选择</p>
-      <button @click="router.push({path: '/map'})">
-        <i class="triangle"></i>继续学习
-      </button>
       <div class="xingqiu-big">
-        <img src="/imgs/homepage/intro-star-big.037e68e1.svg" alt="">
+          <img src="/imgs/homepage/intro-star-big.037e68e1.svg" alt="">
       </div>
       <div class="xingqiu-small">
         <img src="/imgs/homepage/intro-star-small.1eda1e4b.svg" alt="">
@@ -40,174 +45,133 @@
         <img src="/imgs/homepage/intro-rocket.d4e5f0f1.svg" alt="">
       </div>
       <div class="home-bottom-bg"></div>
-    </div>
-    <div class="video-dome">
-      <h1>如何使用打字网学习打字？</h1>
-      <div>
-        <video src="/video/get-started.41b49792.mp4" controls></video>
       </div>
-    </div>
-    <div class="why-select-our">
-      <h1>选择Type.fun的6个理由</h1>
-      <p>拼音练习版块让你能快速掌握26个字母，结合拼音跟读快速学会拼音</p>
-      <h5>内含诗词歌赋，经典文学作品等，帮助您在打字的同时，高效记忆学习</h5>
-      <div class="content">
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/1.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>科学的打字课程设计</P>
-              <P>快速形成肌肉记忆</P>
-          </div>
-        </div>
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/2.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>规范的指法引导</P>
-              <P>迅速提升打字速度</P>
-          </div>
-        </div>
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/3.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>互动游戏体验</P>
-              <P>学习过程轻松有趣</P>
-          </div>
-        </div>
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/4.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>同时学习拼音和打字</P>
-              <P>一举多得</P>
-          </div>
-        </div>
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/5.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>实时数据统计</P>
-              <P>随时掌握打字水平</P>
-          </div>
-        </div>
-        <div class="content-item">
-          <div>
-              <img src="/imgs/homepage/6.png" alt="" srcset="">
-          </div>
-          <div>
-              <P>免安装</P>
-              <P>随时随地开始练习</P>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <section>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </section>
+  </main>
 </template>
-<style lang = "scss" scoped>
-.nav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 80px;
-    color: #fff;
-    background-color: #000;
-    box-sizing: border-box;
-    padding: 0 20px;
-    .left {
-      display: flex;
-      align-items: center;
-      img{
-        width: 40px;
-        margin-right: 12px;
-      }
-    }
-    .right ul{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      li {
-        padding: 6px;
-        margin: 0 10px;
-      }
-      button {
-        width: 100px;
-        height: 35px;
-        border: none;
-        border-radius: 3px;
-        color: #fff;
-        background-color: rgb(230, 94, 108);
-      }
-    }
-}
-.home{
+
+<style lang="scss" scoped>
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: .6rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 .3rem;
+  background: #000000;
+  color: #fff;
+  z-index: 99;
+  box-sizing: border-box;
+  overflow: hidden;
+  div:nth-of-type(1) {
+    font-size: .18rem;
+  }
+  div:nth-of-type(2) {
+    font-size: .14rem;
+    color: #ccc;
+  }
+}
+main {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-
-  .SHOUPING{
-    position: relative;
-    width: 100%;
-    height: 92vh;
-    padding: 120px 120px 0;
-    color: #fff;
-    background: linear-gradient(45deg,#bb90ff,#e88b8b);
-    box-sizing: border-box;
-    overflow: hidden;
-    h1{
-      font-size: 56px;
-      font-weight: bold;
-      margin: 6px 0;
+  height: 100vh;
+  color: #fff;
+  background: linear-gradient(45deg,#bb90ff,#e88b8b);
+  overflow: hidden;
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
+    h1 {
+      font-size: .2rem;
+      margin-bottom: .2rem;
     }
-    h1:last-of-type{
-      margin-bottom: 20px;
-    }
-    p{
-      font-size: 24px;
-      margin: 6px 0;
-    }
-    button{
-      position: relative;
-      width: 200px;
-      height: 50px;
-      border-radius: 5px;
-      font-size: 20px;
-      font-weight: 700;
-      margin-top: 20px;
-      color: #f979e5;
-      background-color: rgba($color: #fff, $alpha: 0.6);
-      animation: startBtn 6s infinite ease-in-out;
-      z-index: 99;
-      i{
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        border: 10px solid transparent;
-        border-left: 10px solid #f979e5;
+    .wrapper {
+      display: flex;
+      width: 4.5rem;
+      height: 2.4rem;
+      max-width: 100vw;
+      padding: .2rem;
+      .item {
+        flex: 1;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 .1rem;
+        padding: .1rem;
+        background: #000000;
+        border-radius: .08rem;
+        overflow: hidden;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+          box-shadow: 0 0 .05rem #ccc;
+          transform: scale(1.1);
+        }
+        // 伪元素
+        &::before {
+          content: '';
+          display: block;
+          width: 80%;
+          height: 140%;
+          position: absolute;
+          background: linear-gradient(45deg,#d7bfff,#fcb5b5);
+          border-radius: .08rem;
+          // 旋转动画
+          animation: rotate 5s linear infinite;
+        }
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          inset: .05rem;
+          background-color: #000000;
+          border-radius: .05rem;
+        }
+        div {
+          margin-top: 1rem;
+          z-index: 1;
+          font-size: .18rem;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        @keyframes rotate {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
       }
     }
-    // 大星球飘动动画
-    @keyframes startBtn{
-      0%{
-        transform: translateY(0);
-      }
-      50%{
-        transform: translateY(16px);
-      }
-      100%{
-        transform: translateY(0);
-      }
+  }
+  .ui-img{
+    div{
+      z-index: 1;
     }
     .home-bg{
       position: absolute;
@@ -222,16 +186,40 @@
     }
     .home-bottom-bg{
       position: absolute;
-      bottom: -1px;
+      bottom: -.1rem;
       left: 0;
       width: 115%;
-      height: 200px;
+      height: 26%;
       background: url('../../../public/imgs/homepage/intro-cloud.0e2ec0ab.png');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      animation: home-bottom-bg 25s infinite ease-in-out;
+      animation: home-bottom-bg 20s infinite ease-in-out;
     }
+    .huojian, .xingqiu-big, .xingqiu-small{
+      position: absolute;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .huojian{
+      top: 25%;
+      right: 15%;
+      animation: huojian 10s infinite ease-in-out;
+    }
+    .xingqiu-big{
+      bottom: 0;
+      right: 0;
+      animation: xingqiuBig 20s infinite ease-in-out;
+    }
+
+    .xingqiu-small{
+      top: 30%;
+      left: 60%;
+      animation: xingqiu 15s infinite ease-in-out;
+    }
+
     // 云朵动画 移动+缩放
     @keyframes home-bottom-bg{
       0%{
@@ -244,36 +232,17 @@
         transform: translateX(0) scale(1);
       }
     }
-    .huojian, .xingqiu-big, .xingqiu-small{
-      position: absolute;
-      img{
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .huojian{
-      top: 25%;
-      right: 15%;
-      width: 320px;
-      animation: huojian 10s infinite ease-in-out;
-    }
     // 在空中飘动的动画
     @keyframes huojian{
       0%{
         transform: translate(0 , 0);
       }
       50%{
-        transform: translate(60px, -50px);
+        transform: translate(.6rem, -.5rem);
       }
       100%{
         transform: translate(0, 0);
       }
-    }
-    .xingqiu-big{
-      bottom: 0;
-      right: 0;
-      width: 260px;
-      animation: xingqiuBig 10s infinite ease-in-out;
     }
     // 大星球飘动动画
     @keyframes xingqiuBig{
@@ -281,17 +250,11 @@
         transform: translate(0, 0);
       }
       50%{
-        transform: translate(15px, 25px);
+        transform: translate(.25rem, .35rem);
       }
       100%{
         transform: translate(0, 0);
       }
-    }
-    .xingqiu-small{
-      top: 30%;
-      left: 60%;
-      width: 120px;
-      animation: xingqiu 15s infinite ease-in-out;
     }
     // 小星球 转动 + 飘动 + 放大 动画
     @keyframes xingqiu{
@@ -299,96 +262,123 @@
         transform: translate(0, 0) rotate(0deg) scale(1);
       }
       50%{
-        transform: translate(10px, -10px) rotate(80deg) scale(1.2);
+        transform: translate(.2rem, -.2rem) rotate(180deg) scale(1.1);
       }
       100%{
         transform: translate(0, 0) rotate(360deg) scale(1);
       }
     }
   }
-  .video-dome{
+  section{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100vh;
-    text-align: center;
-    color: #000;
-    background-color: #fff;
-    h1{
-      font-size: 48px;
-      font-weight: bold;
-      margin: 88px 0 56px;
-    }
-    > div{
-      width: 888px;
-      margin: 0 auto;
-      border: solid 10px #fff;
-      border-radius: 3px;
-      // 阴影
-      box-shadow: 0px 0px 5px rgba(0,0,0,.2);
-      video{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
+    height: 100%;
+    animation: animateBg 20s linear infinite;
   }
-  .why-select-our{
-    width: 100%;
-    height: 100vh;
-    padding: 60px 0;
-    text-align: center;
-    h1{
-      font-size: 48px;
-      margin: 0 24px;
+  @keyframes animateBg{
+    0%, 100%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.2);
     }
   }
-  .content{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 30px;
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-    .content-item{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 12px;
-      text-align: center;
-      font-size: 18px;
-      background-color: #fff;
-      border-radius: 5px;
-      transition: all .15s ease-in-out;
-      cursor: pointer;
-      img{
-        width: 100%;
-        margin-top: 16px;
-      }
-      p {
-        margin: 8px 0;
-      }
+  span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width :.04rem;
+    height: .04rem;
+    background: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.1),
+    0 0 0 8px rgba(255,255,255,0.1),
+    0 0 20px rgba(255,255,255,1);
+    animation: animate 6s linear infinite;
+  }
+  span::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 1px;
+    background: linear-gradient(90deg,#fff,transparent);
+  }
+  @keyframes animate{
+    0%{
+      transform: rotate(315deg) translateX(0);
+      opacity: 1;
     }
-    .content-item:hover{
-      box-shadow: 0px 0px 5px rgba(0,0,0,.2);
-      // 放大
-      transform: scale(1.1);
+    70%{
+      opacity: 1;
     }
+    100%{
+      transform: rotate(315deg) translateX(-10rem);
+      opacity: 0;
+    }
+  }
+  span:nth-child(1){
+    top: 0;
+    right: 0;
+    animation-delay: 0;
+    animation-duration: 1s;
+  }
+  span:nth-child(2){
+    top: 0;
+    right: 80px;
+    left: initial;
+    animation-delay: 0.2s;
+    animation-duration: 3s;
+  }
+  span:nth-child(3){
+    top: 80px;
+    right: 0;
+    left: initial;
+    animation-delay: 0.4s;
+    animation-duration: 2s;
+  }
+  span:nth-child(4){
+    top: 0;
+    right: 180px;
+    left: initial;
+    animation-delay: 0.6s;
+    animation-duration: 1.5s;
+  }
+  span:nth-child(5){
+    top: 0;
+    right: 400px;
+    left: initial;
+    animation-delay: 0.8s;
+    animation-duration: 2.5s;
+  }
+  span:nth-child(6){
+    top: 0;
+    right: 600px;
+    left: initial;
+    animation-delay: 1s;
+    animation-duration: 3s;
+  }
+  span:nth-child(7){
+    top: 300px;
+    right: 0;
+    left: initial;
+    animation-delay: 1.2s;
+    animation-duration: 1.75s;
   }
 }
 </style>
 
 <script>
-import { useRouter  } from 'vue-router';
+import { useRouter } from 'vue-router';
 export default {
-  name: 'HomePage',
   setup() {
     const router = useRouter();
     return {
-      router
-    }
+      router,
+    };
   },
 }
 </script>
