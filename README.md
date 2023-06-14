@@ -26,6 +26,3 @@ Vue + Vite 的一个打字练习的网页。
 ![image](https://github.com/Zbi-i/Type-test/assets/71118545/cbc7f7aa-0efc-4ee4-9594-06ae0cfbe62b)
 
 ![image](https://github.com/Zbi-i/Type-test/assets/71118545/ba6a12af-c926-4365-8385-f97fc02f79b0)
-
-如有问题，请联系我。
-
