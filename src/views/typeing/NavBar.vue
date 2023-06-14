@@ -1,27 +1,24 @@
 <template>
   <nav>
-    <div class="nav-left" @click="router.push({path: '/'})">
-      <h1>打字网</h1>
+    <div class="nav-left">
+      <div @click="router.push({path: '/'})">打字网</div>
     </div>
     <div class="nav-right">
       <div>
         <button class="select-content-btn">选择文章</button>
         <div class="selectContent-wrapper">
           <div class="triangle"></div>
-          <div class="selectContent">
-            <template v-for="content in ContentList"
-              :key="content">
-              <div
-                class="selectContent-item"
-                v-if="content?.title !== '' && JSON.stringify(content?.title) !== '{}'"
-                @click="changeContent(content?.id)">
+          <div class="selectContent" ref="selectContent">
+            <div class="selectContent-item"
+              v-for="content in ContentList"
+              :key="content.id"
+              @click="changeContent(content?.id)">
                 <div class="sc-i-title">《{{ content?.title }}》</div>
                 <div class="sc-i-author">{{ content.dynasty }}
                   <span v-if="content.dynasty && content.dynasty !== ''">·</span>
                   {{ content.author }}
                 </div>
-              </div>
-            </template>
+            </div>
           </div>
         </div>
       </div>
@@ -99,7 +96,16 @@ nav{
   .nav-left{
     color:#fff;
     flex: 1;
-    cursor: pointer;
+    >div{
+      cursor: pointer;
+      width: .8rem;
+      display: inline-block;
+      position: relative;
+      margin: 0 .12rem;
+      font-size: .2rem;
+      font-weight: bold;
+      text-align: center;
+    }
   }
   .nav-right{
     float: right;
@@ -118,17 +124,16 @@ nav{
     }
     .selectContent-wrapper{
       position: absolute;
-      top: 3;
       left: 50%;
-      max-height: 0;
+      max-height: .01vh;
       transform: translateX(-50%);
       overflow: hidden;
-      z-index: 99;
+      opacity: 0;
       transition: all .3s ease-in-out;
       box-sizing: border-box;
       .selectContent{
         width: 3rem;
-        max-height: 60vh;
+        max-height: 50vh;
         padding: .2rem;
         border-radius: .04rem;
         background-color: rgba($color: #fff, $alpha: .7);
@@ -173,6 +178,7 @@ nav{
       }
     }
     .select-content-btn:hover + .selectContent-wrapper,.selectContent-wrapper:hover{
+      opacity: 1;
       max-height: 60vh;
     }
   }
@@ -256,16 +262,41 @@ nav{
 </style>
 
 <script>
-import { ref, reactive } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
+// 存 localStorage
+const setLocalStorage = (contentInfo, language) => {
+  // 把内容缓存到本地
+  // 先拿到本地的内容，然后把新的内容添加进去
+  const contentName = language === 'cn' ? 'ContentInfoCN' : 'ContentInfoEN';
+  const localContentInfo = JSON.parse(localStorage.getItem(contentName)) || {};
+  localContentInfo[contentInfo.id] = contentInfo;
+  localStorage.setItem(contentName, JSON.stringify(localContentInfo));
+}
+// 获取内容列表
+const getContentList = (language) => {
+  let contentInfo;
+  const ContentList = reactive([]);
+  if (language === 'cn') {
+    contentInfo = JSON.parse(localStorage.getItem('ContentInfoCN'));
+  } else if (language === 'en') {
+    contentInfo = JSON.parse(localStorage.getItem('ContentInfoEN'));
+  }
+  for (let key in contentInfo) {
+    const {  id, title, author, dynasty, language } = contentInfo[key];
+    ContentList.push({ id, title, author, dynasty, language });
+  }
+  return ContentList;
+}
 // 头部导航栏/添加内容
-const useNavEffect = (router, warningHandleClick) => {
+const useNavEffect = (router, warningHandleClick, language, ContentList) => {
   const addContentIsShow = ref(false)
   const title = ref(null);
   const author = ref(null);
   const dynasty = ref(null);
   const content = ref(null);
   const addContentWrapper = ref(null);
+  const selectContent = ref(null);
   let keydown;
   const getRadioValue = (name) => {
     const radio = document.getElementsByName(name);
@@ -274,6 +305,10 @@ const useNavEffect = (router, warningHandleClick) => {
         return radio[i];
       }
     }
+  }
+  const changeContent = (id) => {
+    console.log(id)
+    router.replace({ path: `/typing/${language}/${id}` })
   }
   const addContentHandleClick = () => {
     if (addContentIsShow.value) {
@@ -291,17 +326,33 @@ const useNavEffect = (router, warningHandleClick) => {
     // 校验数据
     if (!title.value.value) return warningHandleClick('请输入标题');
     if (!content.value.value) return warningHandleClick('请输入内容');
-
+    const id = Object.keys(JSON.parse(localStorage.getItem('ContentInfoCN'))).length + 1;
     const addContentInfo = {
-      id: Object.keys(JSON.parse(localStorage.getItem('ContentInfoCN'))).length + 1,
+      id,
       title: title.value.value,
       author: author.value.value,
       dynasty: dynasty.value.value,
       language: getRadioValue('language').value,
       content: content.value.value,
     }
-    setLocalStorage(addContentInfo)
+    setLocalStorage(addContentInfo, language)
     addContentHandleClick();
+    ContentList.push({
+      id,
+      title: title.value.value,
+      author: author.value.value,
+      dynasty: dynasty.value.value,
+      language: getRadioValue('language').value,
+    });
+    // 解决 元素的高度变化导致滚动条的计算出现问题，从而导致内容无法正常显示。
+    nextTick(() => {
+      // requestAnimationFrame(() => {
+      //   selectContent.value.scrollTop = selectContent.value.scrollHeight;
+      // });
+      setTimeout(() => {
+        selectContent.value.scrollTop = selectContent.value.scrollHeight;
+      }, 500);
+    })
     changeContent(addContentInfo.id)
   }
   return {
@@ -311,23 +362,10 @@ const useNavEffect = (router, warningHandleClick) => {
     author,
     dynasty,
     content,
-    addContentWrapper
+    addContentWrapper,
+    changeContent,
+    selectContent
   }
-}
-// 获取内容列表
-const getContentList = (language) => {
-  let contentInfo;
-  const ContentList = reactive([]);
-  if (language === 'cn') {
-    contentInfo = JSON.parse(localStorage.getItem('ContentInfoCN'));
-  } else if (language === 'en') {
-    contentInfo = JSON.parse(localStorage.getItem('ContentInfoEN'));
-  }
-  for (let key in contentInfo) {
-    const {  id, title, author, dynasty, language } = contentInfo[key];
-    ContentList.push({ id, title, author, dynasty, language });
-  }
-  return ContentList;
 }
 // warning
 const useWarningEffect = () => {
@@ -364,10 +402,6 @@ export default {
     const { language } = props;
     const ContentList = getContentList(language);
 
-    const changeContent = (id) => {
-      router.replace({ path: `/typing/${language}/${id}` })
-    }
-
     const {
       warningWrapper,
       warningHandleClick,
@@ -381,8 +415,10 @@ export default {
       author,
       dynasty,
       content,
-      addContentWrapper
-    } = useNavEffect(router, warningHandleClick);
+      addContentWrapper,
+      changeContent,
+      selectContent
+    } = useNavEffect(router, warningHandleClick, language, ContentList);
 
     return {
       router,
@@ -398,7 +434,8 @@ export default {
       warningHandleClick,
       warningMessage,
       language,
-      changeContent
+      changeContent,
+      selectContent
     }
   },
 }
