@@ -407,10 +407,14 @@ export default {
         getNewContent(id.value);
 
         const pageTurn = (value) => {
-          router.replace({ name: 'Typeing', params: {
-            id: value,
-            language: language.value
-          }});
+          if(value === id.value){
+            getNewContent(value, language);
+          }else{
+            router.replace({ name: 'Typeing', params: {
+              id: value,
+              language: language.value
+            }});
+          }
         };
 
         watch(() => route.params, (params) => {
