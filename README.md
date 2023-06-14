@@ -13,7 +13,15 @@
 
 ### #项目介绍
 
-练习打字的一个网页练习。
+这是一个练习打字网页。 
+
 支持中文/英文打字练习。
-支持导入文章，导入中文文章自动生成汉语拼音。
+
+ 支持导入中/英文章，导入中文文章自动生成汉语拼音。
+
+![image-20230614204430705](C:\Users\m\AppData\Roaming\Typora\typora-user-images\image-20230614204430705.png)
+
 ![image](https://github.com/Zbi-i/Type-test/assets/71118545/ba6a12af-c926-4365-8385-f97fc02f79b0)
+
+视频演示：
+
