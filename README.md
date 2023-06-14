@@ -14,14 +14,14 @@
 ### #项目介绍
 
 这是一个练习打字网页。 
-
 支持中文/英文打字练习。
+打字音效/汉字录完声音播报/删除
+进度条/打字成绩
+支持导入中/英文章，导入中文文章自动生成汉语拼音。
 
- 支持导入中/英文章，导入中文文章自动生成汉语拼音。
-
-![image-20230614204430705](C:\Users\m\AppData\Roaming\Typora\typora-user-images\image-20230614204430705.png)
+![image](https://github.com/Zbi-i/Type-test/assets/71118545/cbc7f7aa-0efc-4ee4-9594-06ae0cfbe62b)
 
 ![image](https://github.com/Zbi-i/Type-test/assets/71118545/ba6a12af-c926-4365-8385-f97fc02f79b0)
 
-视频演示：
+
 
